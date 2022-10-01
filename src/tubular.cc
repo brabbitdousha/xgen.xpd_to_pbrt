@@ -4,6 +4,8 @@
 #include <math.h>
 
 #include <random>
+#include <iostream> 
+#include <fstream>
 
 #include "curve/catmul-rom-curve.h"
 #include "io/cyhair.h"
@@ -410,6 +412,48 @@ static void ToTinyObjMesh(const std::vector<TriangleMesh> &meshes,
   }
 }
 
+bool write_pbrt(std::string out_path,std::vector<std::vector<std::vector<float>>> curve_vertices,
+    std::vector<std::vector<std::vector<float>>> curve_thicknesses)
+{
+    int c_num = -1;
+    std::ofstream OutFile(out_path.c_str());
+    curve_thicknesses.size();
+    for (int i = 0; i < curve_vertices.size(); i++)
+    {
+        curve_thicknesses[i].size();
+        for (int j = 0; j < curve_vertices[i].size(); j++)
+        {
+            curve_thicknesses[i][j].size();
+            //printf("now i:%d j:%d\n",i,j);
+            OutFile << "Shape \"curve\" \"string type\" [ \"cylinder\" ] \"point3 P\" [ ";
+            if (curve_vertices[i][j].size() != c_num) {
+                if (c_num != -1) printf("opps! every strand has different number of control points\n");
+                else printf("the number of control points is %d\n", curve_vertices[i][j].size());
+                c_num = curve_vertices[i][j].size();
+            }
+            if (curve_vertices[i][j].size()/3 != curve_thicknesses[i][j].size())
+            {
+                printf("opps! thicknesses may not be right\n");
+            }
+            float width_start = 0.01f;
+            float width_end = 0.01f;
+            for (int k = 0; k < curve_vertices[i][j].size(); k++)
+            {
+                //printf("%f ", curve_vertices[i][j][k]);
+                if (k == 2) width_start = curve_thicknesses[i][j][0];
+                if (k == curve_vertices[i][j].size() - 1) width_end = curve_thicknesses[i][j][curve_thicknesses[i][j].size()-1];
+                OutFile << curve_vertices[i][j][k] << " ";
+            }
+
+            OutFile << "] \"float width0\" [ "<<width_start<<" ] \"float width1\" [ "<<width_end<<" ]";
+            OutFile << "\n";
+            //printf("\n");
+        }
+    }
+    OutFile.close();
+    return true;
+}
+
 static std::vector<std::vector<bool>> RandomSelection(
     const std::vector<std::vector<std::vector<float>>> &vertices,
     const uint32_t max_strands) {
@@ -460,6 +504,7 @@ static void FixThicknesses(
 
 void Tubular(const TubularConfig &config) {
   const std::string &xpd_filepath = config.xpd_filepath;
+  const std::string pbrt_filepath = config.pbrt_filepath;
 
   std::vector<std::vector<std::vector<float>>> curve_vertices;
   std::vector<std::vector<std::vector<float>>> curve_thicknesses;
@@ -467,6 +512,7 @@ void Tubular(const TubularConfig &config) {
   if (!config.xpd_filepath.empty()) {
     std::vector<uint32_t> face_ids;
     LoadXPD(xpd_filepath, face_ids, &curve_vertices, &curve_thicknesses);
+    write_pbrt(pbrt_filepath, curve_vertices, curve_thicknesses);
   } else if (!config.cyhair_filepath.empty()) {
     std::vector<std::vector<float>> _vertices;
     std::vector<std::vector<float>> _thicknesses;

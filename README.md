@@ -60,6 +60,7 @@ Convert curves data to wavefront .obj. Setting is done in `config.json` file.
     "xpd_filepath": "/path/to/hoge.xpd",
     "cyhair_filepath": "/path/to/cyhair.hair",
     "obj_filepath": "/pat/to/hoge.obj",
+    "pbrt_filepath": "/pat/to/gogo.pbrt",
     "max_segments": 15,
     "radial_segments": 3,
     "radius_scale": 1.0,
@@ -78,6 +79,7 @@ Input curves can be speficied either `xpd_filepath` or `cyhair_filepath`.
 - `xpd_filepath` Input .xpd file (str)
 - `cyhair_filepath` Input cyhair .hair file (str)
 - `obj_filepath` Outout wavefront .obj (str)
+- `pbrt_filepath` Outout .pbrt (str) (.pbrt will just output all the things ignoring the following)
 - `max_segments` The maximum number of segments per strand　(int)
 - `radial_segments` The number of radial segments (int)
 - `radius_scale` radius scale (float)

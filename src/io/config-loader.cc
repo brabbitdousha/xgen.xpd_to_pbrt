@@ -21,6 +21,7 @@ void init(tubular::TubularConfig* config, ObjectHandler* h) {
   h->add_property("cyhair_filepath", &(config->cyhair_filepath),
                   staticjson::Flags::Optional);
   h->add_property("obj_filepath", &(config->obj_filepath));
+  h->add_property("pbrt_filepath", &(config->pbrt_filepath));
   h->add_property("max_segments",
                   &(config->max_segments));  // TODO(LTE): make this optional?
   h->add_property(

@@ -1,6 +1,7 @@
 {
     "xpd_filepath": "pSphere1.xpd",
     "obj_filepath": "output.obj",
+    "pbrt_filepath": "output_p.pbrt",
     "max_strands": 0,
     "max_segments": 16,
     "radial_segments": 4,

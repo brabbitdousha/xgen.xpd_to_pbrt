@@ -11,6 +11,7 @@ struct TubularConfig {
   std::string xpd_filepath    = "";
   std::string cyhair_filepath = "";
   std::string obj_filepath    = "";
+  std::string pbrt_filepath   = "";
 
   int max_segments    = 10;
   int radial_segments = 4;
